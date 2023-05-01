@@ -1,7 +1,7 @@
 {
     "editor.formatOnSave": true,
     "editor.inlineSuggest.enabled": true,
-    "editor.quickSuggestions": {
-        "other": "off"
-    }
+    // "editor.quickSuggestions": {
+    //     "other": "off"
+    // }
 }
