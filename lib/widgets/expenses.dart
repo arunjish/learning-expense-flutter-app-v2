@@ -51,79 +51,45 @@ class _ExpensesState extends State<Expenses> {
       date: DateTime.now(),
       category: Category.travel,
     ),
-    Expense(
-      title: "New headphones",
-      amount: 99.99,
-      date: DateTime.now(),
-      category: Category.leisure,
-    ),
-    Expense(
-      title: "New chair",
-      amount: 99.99,
-      date: DateTime.now(),
-      category: Category.work,
-    ),
-    Expense(
-      title: "New mouse",
-      amount: 99.99,
-      date: DateTime.now(),
-      category: Category.work,
-    ),
-    Expense(
-      title: "New keyboard",
-      amount: 99.99,
-      date: DateTime.now(),
-      category: Category.work,
-    ),
-    Expense(
-      title: "New microphone",
-      amount: 99.99,
-      date: DateTime.now(),
-      category: Category.work,
-    ),
-    Expense(
-      title: "New processor",
-      amount: 99.99,
-      date: DateTime.now(),
-      category: Category.work,
-    ),
-    Expense(
-      title: "New hard drive",
-      amount: 99.99,
-      date: DateTime.now(),
-      category: Category.work,
-    ),
-    Expense(
-      title: "New graphics card",
-      amount: 99.99,
-      date: DateTime.now(),
-      category: Category.work,
-    ),
-    Expense(
-      title: "New motherboard",
-      amount: 99.99,
-      date: DateTime.now(),
-      category: Category.work,
-    ),
-    Expense(
-      title: "New SSD",
-      amount: 99.99,
-      date: DateTime.now(),
-      category: Category.work,
-    ),
   ];
+
+  void _addExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.add(expense);
+    });
+  }
+
+  void _removeExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.remove(expense);
+    });
+  }
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (ctx) {
-        return const NewExpense();
+        return NewExpense(
+          onAddExpense: _addExpense,
+        );
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget mainContent;
+
+    if (_registeredExpenses.isEmpty) {
+      mainContent = const Center(
+        child: Text("No expense added do add some!!"),
+      );
+    } else {
+      mainContent = Expanded(
+          child: ExpenseList(
+              expenses: _registeredExpenses, onRemoveExpense: _removeExpense));
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text("Expenses"),
@@ -136,7 +102,7 @@ class _ExpensesState extends State<Expenses> {
       ),
       body: Column(children: [
         const Text("Chart"),
-        Expanded(child: ExpenseList(expenses: _registeredExpenses))
+        mainContent,
       ]),
     );
   }
