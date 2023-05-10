@@ -32,6 +32,9 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      _selectedDate = _selectedDate ?? DateTime.now();
+    });
     return Padding(
         padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
         child: Column(
@@ -73,6 +76,8 @@ class _NewExpenseState extends State<NewExpense> {
             ]),
             const SizedBox(height: 16),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 DropdownButton(
                     value: _selectedCategory,
